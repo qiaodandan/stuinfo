@@ -12,9 +12,9 @@ int cgiMain()
 {
   FILE * fd;
 
-	char name[32] = "\0";
-	char age[16] = "\0";
-	char stuId[32] = "\0";
+	char id[32] = "\0";
+	char cno[16] = "\0";
+	char score[32] = "\0";
 	char xno[32] = "\0";
 	int status = 0;
 
@@ -32,17 +32,17 @@ int cgiMain()
 		}
 	fclose(fd);
 
-	status = cgiFormString("name",  name, 32);
+	status = cgiFormString("id",  id, 32);
 	if (status != cgiFormSuccess)
 	{
-		fprintf(cgiOut, "get name error!\n");
+		fprintf(cgiOut, "get id error!\n");
 		return 1;
 	}
 
-	status = cgiFormString("age",  age, 16);
+	status = cgiFormString("cno",  cno, 16);
 	if (status != cgiFormSuccess)
 	{
-		fprintf(cgiOut, "get age error!\n");
+		fprintf(cgiOut, "get cno error!\n");
 		return 1;
 	}
 
@@ -54,10 +54,10 @@ int cgiMain()
 	}
 
 	//status = cgiFormString("stuId",  stuId, 32);
-	status = cgiFormString("stuId",  stuId, 32);
+	status = cgiFormString("score",  score, 32);
 	if (status != cgiFormSuccess)
 	{
-		fprintf(cgiOut, "get stuId error!\n");
+		fprintf(cgiOut, "get score error!\n");
 		return 1;
 	}
 
@@ -84,7 +84,7 @@ int cgiMain()
 		return -1;
 	}
 
-	strcpy(sql, "create table information(id int not null primary key, name varchar(20) not null, age int not null, xno char(4) not null, state int(4), foreign key(xno) references school(xno)");
+	strcpy(sql, "create table score(id int(11) not null,cno char(4) not null,score char(5),xno char(4) not null,primary key(id,cno),foreign key (id) references information(id) ,foreign key (cno) references course(cno) ,foreign key (xno) references school(xno))");
 	if ((ret = mysql_real_query(db, sql, strlen(sql) + 1)) != 0)
 	{
 		if (ret != 1)
@@ -97,7 +97,7 @@ int cgiMain()
 
 
 
-	sprintf(sql, "insert into information values(%d, '%s', %d, '%s', 1)", atoi(stuId), name, atoi(age), xno);
+	sprintf(sql, "insert into score values(%d, '%s', '%s', '%s')", atoi(id), cno, score, xno);
 	if (mysql_real_query(db, sql, strlen(sql) + 1) != 0)
 	{
 		fprintf(cgiOut, "%s\n", mysql_error(db));
@@ -105,7 +105,7 @@ int cgiMain()
 		return -1;
 	}
 
-	fprintf(cgiOut, "add student ok!\n");
+	fprintf(cgiOut, "add score ok!\n");
 	mysql_close(db);
 	return 0;
 }

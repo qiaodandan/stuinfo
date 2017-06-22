@@ -35,13 +35,13 @@ int cgiMain()
 		    <link rel=\"stylesheet\" href=\"/stu/public/css/bootstrap.min.css\">\
 		</head>");
 
-	char name[32] = "\0";
+	char xno[32] = "\0";
 	int status = 0;
 
-	status = cgiFormString("name",  name, 32);
+	status = cgiFormString("xno",  xno, 32);
 	if (status != cgiFormSuccess)
 	{
-		fprintf(cgiOut, "get name error!\n");
+		fprintf(cgiOut, "get xno error!\n");
 		return 1;
 	}
 
@@ -49,13 +49,13 @@ int cgiMain()
 	MYSQL *db;
 	char sql[128] = "\0";
 
-	if (name[0] == '*')
+	if (xno[0] == '*')
 	{
-		sprintf(sql, "select * from information where state=1 ");
+		sprintf(sql, "select * from school");
 	}
 	else
 	{
-		sprintf(sql, "select * from information where name = '%s'", name);
+		sprintf(sql, "select * from school where xno = '%s'", xno);
 	}
 
 

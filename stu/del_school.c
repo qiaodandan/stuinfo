@@ -26,13 +26,13 @@ int cgiMain()
 	fclose(fd);
 
 
-		char stuId[32] = "\0";
+		char xno[32] = "\0";
 		int status = 0;
 
-	status = cgiFormString("stuId",  stuId, 32);
+	status = cgiFormString("xno",  xno, 32);
 	if (status != cgiFormSuccess)
 	{
-		fprintf(cgiOut, "get stuId error!\n");
+		fprintf(cgiOut, "get xno error!\n");
 		return 1;
 	}
 
@@ -58,7 +58,7 @@ int cgiMain()
 		return -1;
 	}
 
-	sprintf(sql, "update information set state = 0 where id = %d ", atoi(stuId));
+	sprintf(sql, "delete from school where xno = '%s' ", xno);
 	if ((ret = mysql_real_query(db, sql, strlen(sql) + 1)) != 0)
 	{
 		fprintf(cgiOut,"mysql_real_query fail:%s\n", mysql_error(db));
@@ -67,7 +67,7 @@ int cgiMain()
 	}
 
 
-	fprintf(cgiOut, "delete student ok!\n");
+	fprintf(cgiOut, "delete school ok!\n");
 	mysql_close(db);
 
 	return 0;

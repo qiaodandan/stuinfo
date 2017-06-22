@@ -58,7 +58,7 @@ int cgiMain()
 		return -1;
 	}
 
-	sprintf(sql, "update information set state = 0 where id = %d ", atoi(stuId));
+	sprintf(sql, "delete from information where id = %d ", atoi(stuId));
 	if ((ret = mysql_real_query(db, sql, strlen(sql) + 1)) != 0)
 	{
 		fprintf(cgiOut,"mysql_real_query fail:%s\n", mysql_error(db));
